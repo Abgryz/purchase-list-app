@@ -81,7 +81,7 @@ public class PurchaseListDao implements Dao<PurchaseList> {
     }
 
     @Override
-    public boolean delete(int id) {
+    public void delete(int id) {
         PurchaseList purchaseList = get(id);
         PurchaseDao dao = new PurchaseDao();
         dao.setDb(db);
@@ -90,9 +90,7 @@ public class PurchaseListDao implements Dao<PurchaseList> {
         String whereClause = PurchaseListData.KEY_ID + "=?";
         String[] whereArgs = {String.valueOf(id)};
         int rowsAffected = db.delete(PurchaseListData.TABLE_NAME, whereClause, whereArgs);
-
         Log.i("TAG", String.format("delete: %s rows (l), id=%s", rowsAffected, id));
-        return rowsAffected > 0;
     }
 
     @Override

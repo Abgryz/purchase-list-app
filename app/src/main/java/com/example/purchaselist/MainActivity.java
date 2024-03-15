@@ -24,9 +24,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private List<PurchaseList> purchaseLists;
     private final DatabaseHandler db = new DatabaseHandler(this);
-    private RecyclerView purchaseListView;
-    private PurchaseListAdapter purchaseListAdapter;
-    private Button addPurchaseListButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setAddPurchaseListButton() {
-        addPurchaseListButton = findViewById(R.id.addPurchaseListButton);
+        Button addPurchaseListButton = findViewById(R.id.addPurchaseListButton);
         addPurchaseListButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, PurchaseListActivity.class);
             startActivity(intent);
@@ -58,11 +55,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setPurchaseListView(){
-        purchaseListView = findViewById(R.id.purchaseListView);
+        RecyclerView purchaseListView = findViewById(R.id.purchaseListView);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         purchaseListView.setLayoutManager(layoutManager);
-        purchaseListAdapter = new PurchaseListAdapter(this, purchaseLists, db);
+        PurchaseListAdapter purchaseListAdapter = new PurchaseListAdapter(this, purchaseLists, db);
         purchaseListView.setAdapter(purchaseListAdapter);
     }
 }

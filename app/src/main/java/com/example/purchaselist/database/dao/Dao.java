@@ -9,6 +9,6 @@ public interface Dao<T> {
     List<T> getAll();
     T create(T t);
     T update(T t);
-    boolean delete(int id);
+    void delete(int id);
     void setDb(SQLiteDatabase db);
 }

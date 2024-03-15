@@ -91,13 +91,11 @@ public class PurchaseDao implements Dao<Purchase> {
     }
 
     @Override
-    public boolean delete(int id) {
+    public void delete(int id) {
         String whereClause = PurchaseData.KEY_ID + "=?";
         String[] whereArgs = {String.valueOf(id)};
         int rowsAffected = db.delete(PurchaseData.TABLE_NAME, whereClause, whereArgs);
         Log.i("TAG", String.format("delete: %s rows (p), id=%s", rowsAffected, id));
-
-        return rowsAffected > 0;
     }
 
     @Override

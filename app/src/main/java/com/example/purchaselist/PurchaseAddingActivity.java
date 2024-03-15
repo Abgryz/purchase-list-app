@@ -3,7 +3,6 @@ package com.example.purchaselist;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -22,11 +21,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import lombok.var;
 
 public class PurchaseAddingActivity extends AppCompatActivity {
-    private TextInputLayout purchaseInputLayout;
-    private EditText countInput;
-    private EditText priceInput;
-    private int purchaseListId;
     private final DatabaseHandler db = new DatabaseHandler(this);
+    private int purchaseListId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +36,6 @@ public class PurchaseAddingActivity extends AppCompatActivity {
         Intent intent = getIntent();
         purchaseListId = intent.getIntExtra("purchaseListId", -1);
 
-        purchaseInputLayout = findViewById(R.id.purchaseInputLayout);
-        countInput = findViewById(R.id.countInput);
-        priceInput = findViewById(R.id.priceInput);
-
         ImageButton backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
@@ -52,7 +44,10 @@ public class PurchaseAddingActivity extends AppCompatActivity {
     }
 
     private void savePurchaseOnClickListener() {
-        var editText = purchaseInputLayout.getEditText();
+        TextInputLayout purchaseInputLayout1 = findViewById(R.id.purchaseInputLayout);
+        EditText countInput = findViewById(R.id.countInput);
+        EditText priceInput = findViewById(R.id.priceInput);
+        var editText = purchaseInputLayout1.getEditText();
         try {
             String purchaseInputLayout = editText.getText().toString().trim();
             double count = TextUtils.isEmpty(countInput.getText().toString()) ? 1 : Double.parseDouble(countInput.getText().toString());
@@ -67,9 +62,6 @@ public class PurchaseAddingActivity extends AppCompatActivity {
                 db.getPurchaseHandler().create(purchase);
 
                 finish();
-//                Intent intent = new Intent(PurchaseAddingActivity.this, PurchaseListActivity.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                startActivity(intent);
             } else {
                 throw new NullPointerException();
             }

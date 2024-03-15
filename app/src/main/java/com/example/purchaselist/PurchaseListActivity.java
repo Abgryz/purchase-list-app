@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.purchaselist.adapter.PurchaseAdapter;
-import com.example.purchaselist.adapter.PurchaseListAdapter;
 import com.example.purchaselist.database.handler.DatabaseHandler;
 import com.example.purchaselist.model.Purchase;
 import com.example.purchaselist.model.PurchaseList;
@@ -29,10 +28,9 @@ import lombok.var;
 
 public class PurchaseListActivity extends AppCompatActivity {
     private final DatabaseHandler db = new DatabaseHandler(this);
-    private TextInputLayout purchaseInputLayout;
     private PurchaseList currentList;
     private List<Purchase> purchases;
-    private PurchaseAdapter purchaseAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("TAG", "onCreate: PurchaseListActivity loaded");
@@ -56,6 +54,7 @@ public class PurchaseListActivity extends AppCompatActivity {
         setAddPurchaseButton();
     }
 
+    @Override
     protected void onStart() {
         super.onStart();
         purchases = db.findAllByPurchaseListId(currentList.getId());
@@ -70,13 +69,13 @@ public class PurchaseListActivity extends AppCompatActivity {
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         purchaseView.setLayoutManager(layoutManager);
-        purchaseAdapter = new PurchaseAdapter(this, purchases, db);
+        PurchaseAdapter purchaseAdapter = new PurchaseAdapter(this, purchases, db);
         purchaseView.setAdapter(purchaseAdapter);
     }
 
     private void setAddPurchaseButton(){
         Button addPurchaseButton = findViewById(R.id.addPurchaseButton);
-        purchaseInputLayout = findViewById(R.id.purchaseListInputLayout);
+        TextInputLayout purchaseInputLayout = findViewById(R.id.purchaseListInputLayout);
         addPurchaseButton.setOnClickListener(v -> {
             var editText = purchaseInputLayout.getEditText();
             try {

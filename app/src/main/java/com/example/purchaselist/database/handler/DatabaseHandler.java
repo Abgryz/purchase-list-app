@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.purchaselist.database.dao.Dao;
 import com.example.purchaselist.database.dao.PurchaseDao;
 import com.example.purchaselist.database.dao.PurchaseListDao;
 import com.example.purchaselist.database.data.DbData;
