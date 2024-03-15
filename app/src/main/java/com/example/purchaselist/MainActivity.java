@@ -2,7 +2,6 @@ package com.example.purchaselist;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
@@ -15,10 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.purchaselist.adapter.PurchaseListAdapter;
 import com.example.purchaselist.database.handler.DatabaseHandler;
-import com.example.purchaselist.model.Purchase;
 import com.example.purchaselist.model.PurchaseList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {

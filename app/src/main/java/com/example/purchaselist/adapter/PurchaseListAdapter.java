@@ -11,11 +11,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.purchaselist.MainActivity;
 import com.example.purchaselist.PurchaseListActivity;
 import com.example.purchaselist.R;
 import com.example.purchaselist.database.handler.DatabaseHandler;
