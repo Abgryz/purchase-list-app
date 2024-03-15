@@ -2,16 +2,21 @@ package com.example.purchaselist.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.purchaselist.MainActivity;
+import com.example.purchaselist.PurchaseListActivity;
 import com.example.purchaselist.R;
 import com.example.purchaselist.database.handler.DatabaseHandler;
 import com.example.purchaselist.model.PurchaseList;
@@ -55,6 +60,14 @@ public class PurchaseListAdapter extends RecyclerView.Adapter<PurchaseListAdapte
             purchaseListLayout = itemView.findViewById(R.id.purchaseListLayout);
             priceSum = itemView.findViewById(R.id.priceSum);
             itemView.findViewById(R.id.deletePurchaseListButton).setOnClickListener(v -> deletePurchaseListButtonListener());
+            itemView.findViewById(R.id.purchaseListView).setOnClickListener(v -> purchaseListViewListener());
+        }
+
+        private void purchaseListViewListener() {
+            Log.i("TAG", "purchaseListViewListener: loading new intent");
+            Intent intent = new Intent(context, PurchaseListActivity.class);
+            intent.putExtra("currentList", purchaseLists.get(getAdapterPosition()));
+            context.startActivity(intent);
         }
 
         private void deletePurchaseListButtonListener() {

@@ -36,11 +36,18 @@ public class PurchaseAddingActivity extends AppCompatActivity {
         Intent intent = getIntent();
         purchaseListId = intent.getIntExtra("purchaseListId", -1);
 
-        ImageButton backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
+        setBackButton();
+        setSavePurchaseButton();
+    }
 
+    private void setSavePurchaseButton() {
         Button savePurchaseButton = findViewById(R.id.savePurchaseButton);
         savePurchaseButton.setOnClickListener(v -> savePurchaseOnClickListener());
+    }
+
+    private void setBackButton() {
+        ImageButton backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> finish());
     }
 
     private void savePurchaseOnClickListener() {

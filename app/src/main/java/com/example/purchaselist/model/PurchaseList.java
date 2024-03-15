@@ -1,5 +1,6 @@
 package com.example.purchaselist.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -9,7 +10,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class PurchaseList{
+public class PurchaseList implements Serializable {
     private int id;
     private List<Purchase> purchases;
     private String title;

@@ -23,6 +23,7 @@ import com.example.purchaselist.model.PurchaseList;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
+import java.util.Objects;
 
 import lombok.var;
 
@@ -30,6 +31,7 @@ public class PurchaseListActivity extends AppCompatActivity {
     private final DatabaseHandler db = new DatabaseHandler(this);
     private PurchaseList currentList;
     private List<Purchase> purchases;
+    private TextInputLayout purchaseInputLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +45,26 @@ public class PurchaseListActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        currentList = db.getPurchaseListHandler().create(
-                PurchaseList.builder()
-                        .title("INPUT TITLE")
-                        .build());
+        purchaseInputLayout = findViewById(R.id.purchaseListInputLayout);
+        currentList = getCurrentList(getIntent());
 
-        ImageButton backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
-
+        setBackButton();
         setAddPurchaseButton();
+        setSavePurchaseListButton();
+    }
+
+    private PurchaseList getCurrentList(Intent intent) {
+        if (intent.hasExtra("currentList")){
+            Log.i("TAG", "getCurrentList: extras=" + intent.getSerializableExtra("currentList", PurchaseList.class));
+            currentList = intent.getSerializableExtra("currentList", PurchaseList.class);
+            Objects.requireNonNull(purchaseInputLayout.getEditText()).setText(currentList.getTitle());
+            return currentList;
+        } else {
+            return db.getPurchaseListHandler().create(
+                    PurchaseList.builder()
+                            .title("INPUT TITLE")
+                            .build());
+        }
     }
 
     @Override
@@ -75,7 +88,6 @@ public class PurchaseListActivity extends AppCompatActivity {
 
     private void setAddPurchaseButton(){
         Button addPurchaseButton = findViewById(R.id.addPurchaseButton);
-        TextInputLayout purchaseInputLayout = findViewById(R.id.purchaseListInputLayout);
         addPurchaseButton.setOnClickListener(v -> {
             var editText = purchaseInputLayout.getEditText();
             try {
@@ -94,5 +106,30 @@ public class PurchaseListActivity extends AppCompatActivity {
                 Toast.makeText(this, "Введіть назву списку покупок", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setSavePurchaseListButton() {
+        Button savePurchaseListButton = findViewById(R.id.savePurchaseListButton);
+        savePurchaseListButton.setOnClickListener(v -> {
+            var editText = purchaseInputLayout.getEditText();
+            try {
+                String purchaseTitleText = editText.getText().toString().trim();
+                if (!TextUtils.isEmpty(purchaseTitleText)) {
+                    currentList.setTitle(purchaseTitleText);
+                    db.getPurchaseListHandler().update(currentList);
+
+                    finish();
+                } else {
+                    throw new NullPointerException();
+                }
+            } catch (NullPointerException e){
+                Toast.makeText(this, "Введіть назву списку покупок", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setBackButton() {
+        ImageButton backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> finish());
     }
 }
